@@ -5,12 +5,17 @@ using Utilities;
 
 public class VisionConeSB : SimpleMovementAI
 {
+    public Rigidbody rb;
 
-     [Header("VisionCone")]
-    public float fovAngle = 15f;
+     [Header("VisionCone_SteeringDam")]
+    public Transform player;
     public Transform amogo;
+    public float fovAngle = 15f;
     public float visionDistance = 10f;
+    
     bool isDetected = false;
+
+
     [Header("PawPatrol")] 
     public GameObject[] pawPatrol; 
     // Índice que rastrea el objetivo actual del patrullaje
@@ -31,7 +36,7 @@ public class VisionConeSB : SimpleMovementAI
     p1 = transform.TransformDirection(visionCone(halfFovAngle, visionDistance));
     p2 = transform.TransformDirection(visionCone(-halfFovAngle, visionDistance));
 
-    Gizmos.color = Color.green;
+    Gizmos.color = isDetected ? Color.green : Color.red;
     Gizmos.DrawLine(amogo.position, amogo.position + p1);
     Gizmos.DrawLine(amogo.position, amogo.position + p2);
 }
@@ -52,51 +57,71 @@ Vector3 visionCone(float angle, float distance)
     // Update is called once per frame
     void Update()
     {
+        Vector3 amogusDirection = transform.forward; // Aqui calculamos el frente del Amogus, a donde esta yendo
         isDetected = false;
-        
-         // Definir un área de aceptación para saber si el agente ha llegado al objetivo
-        // Revisamos si el agente está dentro del radio de tolerancia del objetivo actual (patrullaje)
-        if (Utilities.Utility.IsInsideRadius(pawPatrol[currentPawPatrol].transform.position, transform.position, pawPatrolToleranceRadius))
+        // Revisamos si el agente está dentro del radio de tolerancia del objetivo actual
+        if (Utilities.Utility.IsInsideCone(player.position, amogo.position, amogusDirection, fovAngle, visionDistance))
         {
-            // Cambia al siguiente objetivo en el array
-            currentPawPatrol++;
-            
-            // Usamos el operador módulo para ciclar el índice, volviendo al primer objetivo al alcanzar el final
-            currentPawPatrol %= pawPatrol.Length; 
-            
-            // Ejemplo del funcionamiento de % con pawPatrol.Length = 4:
-            // 0 % 4 = 0
-            // 1 % 4 = 1
-            // 2 % 4 = 2
-            // 3 % 4 = 3
-            // 4 % 4 = 0 (regresa al primer objetivo)
+            isDetected = true;
+            Vector3 PosToTarget = PuntaMenosCola(player.transform.position, transform.position); // SEEK
 
-            /*
-            Alternativa: Ciclar usando una condición if
-            if(currentPawPatrol >= pawPatrol.Length)
+        // Force o Acceleration nos dan lo mismo ahorita porque no vamos a modificar la masa.
+            rb.AddForce(PosToTarget.normalized * maxAcceleration, ForceMode.Force);
+
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+            
+        }
+        
+        
+        if(!isDetected)
+        {
+            // Revisamos si el agente está dentro del radio de tolerancia del objetivo actual (patrullaje)
+            if (Utilities.Utility.IsInsideRadius(pawPatrol[currentPawPatrol].transform.position, transform.position, pawPatrolToleranceRadius))
             {
-                currentPawPatrol = 0; // Reinicia el índice si llega al final
+                
+                // Cambia al siguiente objetivo en el array
+                currentPawPatrol++;
+                
+                // Usamos el operador módulo para ciclar el índice, volviendo al primer objetivo al alcanzar el final
+                currentPawPatrol %= pawPatrol.Length; 
+                
+                // Ejemplo del funcionamiento de % con pawPatrol.Length = 4:
+                // 0 % 4 = 0
+                // 1 % 4 = 1
+                // 2 % 4 = 2
+                // 3 % 4 = 3
+                // 4 % 4 = 0 (regresa al primer objetivo)
+
+                /*
+                Alternativa: Ciclar usando una condición if
+                if(currentPawPatrol >= pawPatrol.Length)
+                {
+                    currentPawPatrol = 0; // Reinicia el índice si llega al final
+                }
+                */
             }
-            */
+            // Calculamos la dirección hacia el objetivo actual
+                Vector3 PosToTarget = PuntaMenosCola(pawPatrol[currentPawPatrol].transform.position, transform.position);
+                
+                // Aumentamos la velocidad del agente hacia el objetivo, respetando la aceleración máxima
+                Velocity += maxAcceleration * Time.deltaTime * PosToTarget.normalized;
+                
+                // Limitamos la velocidad para que no exceda el valor máximo permitido
+                Velocity = Vector3.ClampMagnitude(Velocity, maxSpeed);
+                
+                // Actualizamos la posición del agente en función de la velocidad calculada
+                transform.position += Velocity * Time.deltaTime;
+
+            if (PosToTarget.magnitude > 0.1f) // Solo rotar si el objetivo no está muy cerca
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(PosToTarget); // Calcula la rotación hacia el objetivo
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // Rotación suave
+                }
+           
+        }
         }
         
+        
 
-        // Calculamos la dirección hacia el objetivo actual
-        Vector3 PosToTarget = PuntaMenosCola(pawPatrol[currentPawPatrol].transform.position, transform.position);
         
-        // Aumentamos la velocidad del agente hacia el objetivo, respetando la aceleración máxima
-        Velocity += maxAcceleration * Time.deltaTime * PosToTarget.normalized;
-        
-        // Limitamos la velocidad para que no exceda el valor máximo permitido
-        Velocity = Vector3.ClampMagnitude(Velocity, maxSpeed);
-        
-        // Actualizamos la posición del agente en función de la velocidad calculada
-        transform.position += Velocity * Time.deltaTime;
-
-    if (PosToTarget.magnitude > 0.1f) // Solo rotar si el objetivo no está muy cerca
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(PosToTarget); // Calcula la rotación hacia el objetivo
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // Rotación suave
-        }
-    }
 }

@@ -28,6 +28,34 @@ namespace Utilities
         }
 
         // Función de Cono de Visión.
+        public static bool IsInsideCone(Vector3 inTargetPos, Vector3 inAmogusPos, Vector3 coneDirection, float inConeAngle, float inConeDistance)
+        {
+             // Hacemos un vector que inicia en el origen del amogus y que termine en TargetPos (punta menos cola)
+            Vector3 playerVector = inTargetPos - inAmogusPos;
+
+            //Se calcula el angula que hay entre la direccion del cono y del jugador
+            float angleToTarget = Vector3.Angle(playerVector.normalized, coneDirection.normalized);
+            
+            //Se verifica si el objetivo se encuentra en el angulo del cono 
+            if(angleToTarget < inConeAngle * 0.5f)
+            {
+
+                //Se verifica si el objetivo se encuentra en el angulo del cono 
+                if(playerVector.magnitude < inConeDistance)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
 
     }
 }

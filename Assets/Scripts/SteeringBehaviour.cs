@@ -20,7 +20,7 @@ public class SteeringBehaviorMovement : SimpleMovementAI
 
    
 
-    bool IsInsideSphere()
+    /*bool IsInsideSphere()
     {
         // Para saber si un punto en el espacio (llamado TargetPos) está dentro o fuera de una esfera en el espacio, 
         // hacemos un vector que inicia en el origen de la esfera y que termine en TargetPos (punta menos cola)
@@ -39,7 +39,7 @@ public class SteeringBehaviorMovement : SimpleMovementAI
         {
             return false; 
         }
-    }
+    }*/
     public void Start()
     {
         // En vez de sobreescribir el método Start de la clase padre, lo vamos a extender.
@@ -53,14 +53,14 @@ public class SteeringBehaviorMovement : SimpleMovementAI
     // Update is called once per frame
     public void Update()
     {
-        if (Utility.IsInsideRadius(targetGameObject.transform.position, transform.position, SphereRadius))
+        /*if (Utility.IsInsideRadius(targetGameObject.transform.position, transform.position, SphereRadius))
         {
             // Debug.Log("Sí está dentro de la esfera");
         }
         else
         {
             // Debug.Log("Está fuera de la esfera.");
-        }
+        }*/
 
 
         Vector3 PosToTarget = PuntaMenosCola(targetGameObject.transform.position, transform.position); // SEEK
@@ -74,7 +74,7 @@ public class SteeringBehaviorMovement : SimpleMovementAI
         // El rigidbody ya se va a encargar de cambiarnos nuestra velocity y nuestra transform.position de manera "física" (físicamente simulada).
     }
 
-   public void OnDrawGizmos()
+   /*public void OnDrawGizmos()
     {
 
         if (DebugGizmoManager.DetectionSphere)
@@ -119,5 +119,5 @@ public class SteeringBehaviorMovement : SimpleMovementAI
     void OnTriggerExit(Collider other)
     {
 
-    }
+    }*/
 }
