@@ -1107,8 +1107,10 @@ MonoBehaviour:
   maxSpeed: 5
   maxAcceleration: 7
   targetGameObject: {fileID: 0}
-  fovAngle: 21
+  rb: {fileID: 1098622045}
+  player: {fileID: 1036373825}
   amogo: {fileID: 1098622044}
+  fovAngle: 21
   visionDistance: 14.4
   pawPatrol:
   - {fileID: 1760076262}

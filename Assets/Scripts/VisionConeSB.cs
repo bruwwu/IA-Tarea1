@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utilities;
+using DebugManager;
 
 public class VisionConeSB : SimpleMovementAI
 {
@@ -32,6 +33,7 @@ public class VisionConeSB : SimpleMovementAI
 
     Vector3 p1, p2;
 
+    if(DebugGizmoManager.VisionCone){
     // Calculamos el cono de visión en 3D aplicando la rotación del agente
     p1 = transform.TransformDirection(visionCone(halfFovAngle, visionDistance));
     p2 = transform.TransformDirection(visionCone(-halfFovAngle, visionDistance));
@@ -39,6 +41,7 @@ public class VisionConeSB : SimpleMovementAI
     Gizmos.color = isDetected ? Color.green : Color.red;
     Gizmos.DrawLine(amogo.position, amogo.position + p1);
     Gizmos.DrawLine(amogo.position, amogo.position + p2);
+    }
 }
 
 Vector3 visionCone(float angle, float distance)
