@@ -348,8 +348,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.49418426, y: -0.0020920327, z: 0.0011911691, w: -0.8693539}
+  m_LocalPosition: {x: 0.7221574, y: 24.183407, z: -18.053408}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -953,6 +953,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 10
+  player: {fileID: 1036373825}
+  fovAngle: 39.7
+  visionDistance: 14.16
 --- !u!1 &1098622039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1110,8 +1113,8 @@ MonoBehaviour:
   rb: {fileID: 1098622045}
   player: {fileID: 1036373825}
   amogo: {fileID: 1098622044}
-  fovAngle: 21
-  visionDistance: 14.4
+  fovAngle: 27.4
+  visionDistance: 20.9
   pawPatrol:
   - {fileID: 1760076262}
   - {fileID: 917718008}

@@ -25,31 +25,13 @@ public class VisionConeSB : SimpleMovementAI
     private float pawPatrolToleranceRadius = 3f; 
 
 
-   void OnDrawGizmos()
-{
-    if (fovAngle <= 0f) return;
-
-    float halfFovAngle = fovAngle / 2;
-
-    Vector3 p1, p2;
-
-    if(DebugGizmoManager.VisionCone){
-    // Calculamos el cono de visión en 3D aplicando la rotación del agente
-    p1 = transform.TransformDirection(visionCone(halfFovAngle, visionDistance));
-    p2 = transform.TransformDirection(visionCone(-halfFovAngle, visionDistance));
-
-    Gizmos.color = isDetected ? Color.green : Color.red;
-    Gizmos.DrawLine(amogo.position, amogo.position + p1);
-    Gizmos.DrawLine(amogo.position, amogo.position + p2);
+    void OnDrawGizmos()
+    {
+        if(DebugGizmoManager.VisionCone){ //Ya todo probado, si se apaga VisionCone del debug no se ejecuta :p
+            Utility.DrawVisionCone(amogo.position, fovAngle, visionDistance, isDetected, transform); //Basicamente los valores que se muestran en el insepctor, angulo y ditancia :D
+        }
     }
-}
 
-Vector3 visionCone(float angle, float distance)
-{
-    // Cambiamos a Vector3 para trabajar en 3D, ya que vector2 no interactua de la manera ideal en un entorno 3D
-    //Solo se ha agregado le valor 0 (esto arregla un problema que habia con la rotacion)
-    return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0, Mathf.Cos(angle * Mathf.Deg2Rad)) * distance;
-}
 
     // Start is called before the first frame update
     void Start()
@@ -122,9 +104,6 @@ Vector3 visionCone(float angle, float distance)
                 }
            
         }
-        }
-        
-        
-
+    }
         
 }

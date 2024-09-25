@@ -13,7 +13,7 @@ namespace DebugManager
         public static bool VelocityLines = true;
         public static bool DesiredVectors = true;
         public static bool DetectionSphere = true;
-        public static bool VisionCone = true;
+        public static bool VisionCone = true; 
     
     }
 }
