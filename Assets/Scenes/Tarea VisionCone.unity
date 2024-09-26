@@ -820,6 +820,7 @@ GameObject:
   - component: {fileID: 1036373823}
   - component: {fileID: 1036373822}
   - component: {fileID: 1036373821}
+  - component: {fileID: 1036373827}
   - component: {fileID: 1036373826}
   m_Layer: 0
   m_Name: Player(CanControl)
@@ -934,7 +935,7 @@ Transform:
   m_GameObject: {fileID: 1036373819}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.16, y: -0.96, z: 0.56}
+  m_LocalPosition: {x: -9.4, y: -0.96, z: 0.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -953,6 +954,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 10
+  rotationSensitivity: 210
+--- !u!114 &1036373827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036373819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f46edd5a0ce536418d152aca5ca1fc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amogo: {fileID: 1098622044}
+  player: {fileID: 1036373825}
+  fovAngle: 15
+  visionDistance: 10
 --- !u!1 &1098622039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1055,14 +1073,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098622039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.4896068, z: -0, w: 0.8719434}
   m_LocalPosition: {x: 14.69, y: -0.41, z: 12.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 629017851}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 58.629, z: 0}
 --- !u!54 &1098622045
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1104,11 +1122,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ContadorDeCuadros: 0
   Velocity: {x: 0, y: 0, z: 0}
-  maxSpeed: 5
+  maxSpeed: 6
   maxAcceleration: 7
   targetGameObject: {fileID: 0}
-  fovAngle: 21
+  rb: {fileID: 1098622045}
+  player: {fileID: 1036373825}
   amogo: {fileID: 1098622044}
+  fovAngle: 21
   visionDistance: 14.4
   pawPatrol:
   - {fileID: 1760076262}
