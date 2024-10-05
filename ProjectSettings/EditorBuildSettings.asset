@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tarea VisionCone.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Proyecto Primer Parcial part 1.unity
+    guid: b18064898e0199149b9c3cbcec33bbb8
   m_configObjects: {}
